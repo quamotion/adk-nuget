@@ -4,6 +4,7 @@
 
 namespace AdkNuGetGenerator
 {
+    using NuGet;
     using System;
     using System.Xml.Linq;
 
@@ -83,6 +84,11 @@ namespace AdkNuGetGenerator
             {
                 return $"{this.Major}";
             }
+        }
+
+        public SemanticVersion ToSematicVersion()
+        {
+            return new SemanticVersion(this.Major, this.Minor > 0 ? this.Minor : 0, this.Micro > 0 ? this.Micro : 0, null);
         }
     }
 }

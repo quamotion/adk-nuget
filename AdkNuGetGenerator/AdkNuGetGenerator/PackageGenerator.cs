@@ -4,6 +4,7 @@
 
 namespace AdkNuGetGenerator
 {
+    using NuGet;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -70,10 +71,18 @@ namespace AdkNuGetGenerator
                 dir = dir.EnumerateDirectories().Single();
 
                 // Generate the .nuspec file
-                string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToString());
+                string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString());
                 nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
 
                 File.WriteAllText(packagePath, nugetPackage);
+
+                PackageBuilder builder = new PackageBuilder(packagePath, null, false);
+                var packageOutputPath = Path.Combine(targetDirectory.FullName, $"{builder.Id}-{builder.Version}.nupkg");
+
+                using (Stream stream = File.Open(packageOutputPath, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    builder.Save(stream);
+                }
             }
         }
     }

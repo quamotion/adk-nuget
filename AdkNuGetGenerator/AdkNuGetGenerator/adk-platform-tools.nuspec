@@ -20,6 +20,6 @@
   </metadata>
 
   <files>
-    <file src="{Dir}" target="tools\" />
+    <file src="{Dir}\**\*.*" target="tools\" />
   </files>
 </package>
