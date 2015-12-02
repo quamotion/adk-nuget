@@ -71,7 +71,18 @@ namespace AdkNuGetGenerator
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"{this.Major}.{this.Minor}.{this.Micro}";
+            if (this.Micro > 0)
+            {
+                return $"{this.Major}.{this.Minor}.{this.Micro}";
+            }
+            else if (this.Minor > 0)
+            {
+                return $"{this.Major}.{this.Minor}";
+            }
+            else
+            {
+                return $"{this.Major}";
+            }
         }
     }
 }

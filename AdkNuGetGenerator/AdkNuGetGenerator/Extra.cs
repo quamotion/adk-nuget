@@ -12,7 +12,7 @@ namespace AdkNuGetGenerator
     /// <summary>
     /// Represents an extra (third party) component in the Android SDK.
     /// </summary>
-    public class Extra
+    public class Extra : IArchiveContainer
     {
         /// <summary>
         /// Gets or sets the unique ID of the vendor that provides the extra.

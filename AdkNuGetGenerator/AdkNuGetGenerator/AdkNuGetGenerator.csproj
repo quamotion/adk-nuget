@@ -50,15 +50,26 @@
     <Compile Include="Archive.cs" />
     <Compile Include="Component.cs" />
     <Compile Include="Extra.cs" />
+    <Compile Include="IArchiveContainer.cs" />
+    <Compile Include="PackageGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="Revision.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="adk-usb-driver.nuspec">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="App.config" />
+    <None Include="adk-platform-tools.nuspec">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <AdditionalFiles Include="stylecop.json" />
+    <None Include="adk-build-tools.nuspec">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0-rc1\analyzers\dotnet\cs\Newtonsoft.Json.dll" />

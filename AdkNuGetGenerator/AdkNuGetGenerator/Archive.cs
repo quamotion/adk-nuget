@@ -50,7 +50,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the URL from which the package can be downloaded.
         /// </summary>
-        public string Url
+        public Uri Url
         {
             get;
             set;
@@ -125,19 +125,15 @@ namespace AdkNuGetGenerator
                 Size = (int)value.Element(value.Name.Namespace + "size"),
                 ChecksumType = (string)value.Element(value.Name.Namespace + "checksum").Attribute("type"),
                 Checksum = (string)value.Element(value.Name.Namespace + "checksum"),
-                Url = (string)value.Element(value.Name.Namespace + "url"),
+                Url = new Uri((string)value.Element(value.Name.Namespace + "url"), UriKind.RelativeOrAbsolute),
                 HostOs = (string)value.Element(value.Name.Namespace + "host-os")
             };
 
             // Make the URL absolute if required.
-            Uri uri = new Uri(archive.Url, UriKind.RelativeOrAbsolute);
-
-            if (!uri.IsAbsoluteUri)
+            if (!archive.Url.IsAbsoluteUri)
             {
-                uri = new Uri(baseUri, uri);
+                archive.Url = new Uri(baseUri, archive.Url);
             }
-
-            archive.Url = uri.ToString();
 
             return archive;
         }
@@ -149,16 +145,46 @@ namespace AdkNuGetGenerator
         /// The directory to which to extract the package. A new sub folder will be created
         /// in this directory.
         /// </param>
+        /// <param name="overwrite">
+        /// If set to <see langword="true"/>, any existing directory will be deleted.
+        /// </param>
         /// <returns>
         /// A <see cref="Task"/> that represents the asynchronous operation, and returns the
         /// directory to which the package has been extracted.
         /// </returns>
-        public async Task<DirectoryInfo> DownloadAndExtract(DirectoryInfo repositoryDirectory)
+        public async Task<DirectoryInfo> DownloadAndExtract(DirectoryInfo repositoryDirectory, bool overwrite)
         {
-            string tempFile = Path.GetTempFileName();
+            // Create the directory into which to extract
+            string directoryName = Path.ChangeExtension(Path.GetFileName(this.Url.LocalPath), null);
+
+            // Figure out whether that directory already exists.
+            DirectoryInfo targetDirectory;
+            targetDirectory = repositoryDirectory.EnumerateDirectories(directoryName).SingleOrDefault();
+
+            // If it does, proceed based on the value of the overwrite flag
+            if (targetDirectory != null)
+            {
+                if (overwrite)
+                {
+                    // Delete the directory & proceed as usual.
+                    targetDirectory.Delete(true);
+                    targetDirectory = null;
+                }
+                else
+                {
+                    // Nothing left to do.
+                    return targetDirectory;
+                }
+            }
+
+            targetDirectory = repositoryDirectory.CreateSubdirectory(directoryName);
+
+            // Temporary file to which to download the file.
+            string tempFile = null;
 
             try
             {
+                tempFile = Path.GetTempFileName();
                 HttpClient client = new HttpClient();
                 using (Stream source = await client.GetStreamAsync(this.Url))
                 using (Stream target = File.Open(tempFile, FileMode.Open, FileAccess.ReadWrite))
@@ -189,9 +215,6 @@ namespace AdkNuGetGenerator
                     }
                 }
 
-                // Create the directory into which to extract
-                var targetDirectory = repositoryDirectory.CreateSubdirectory(Path.ChangeExtension(this.Url, null));
-
                 // Extract to directory
                 ZipFile.ExtractToDirectory(tempFile, targetDirectory.FullName);
 
@@ -209,7 +232,7 @@ namespace AdkNuGetGenerator
         /// <inheritdoc/>
         public override string ToString()
         {
-            return this.Url;
+            return $"{this.Url}";
         }
 
         private static byte[] StringToByteArray(string hex)

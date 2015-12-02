@@ -12,7 +12,7 @@ namespace AdkNuGetGenerator
     /// <summary>
     /// Represents an individual component of the Android SDK.
     /// </summary>
-    public class Component
+    public class Component : IArchiveContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Component"/> class.
