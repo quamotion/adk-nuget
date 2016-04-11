@@ -6,6 +6,7 @@ namespace AdkNuGetGenerator
 {
     using NuGet;
     using System;
+    using System.Linq;
     using System.Xml.Linq;
 
     /// <summary>
@@ -41,6 +42,16 @@ namespace AdkNuGetGenerator
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the component is in preview (that is, this
+        /// is not a publicly released version of the component).
+        /// </summary>
+        public bool Preview
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Loads a <see cref="Revision"/> from a <c>revision</c> element.
         /// </summary>
         /// <param name="value">
@@ -65,7 +76,8 @@ namespace AdkNuGetGenerator
             {
                 Major = (int)value.Element(value.Name.Namespace + "major"),
                 Minor = value.Element(value.Name.Namespace + "minor") != null ? (int)value.Element(value.Name.Namespace + "minor") : -1,
-                Micro = value.Element(value.Name.Namespace + "micro") != null ? (int)value.Element(value.Name.Namespace + "micro") : -1
+                Micro = value.Element(value.Name.Namespace + "micro") != null ? (int)value.Element(value.Name.Namespace + "micro") : -1,
+                Preview = value.Elements(value.Name.Namespace + "preview").Any(),
             };
         }
 
@@ -84,6 +96,11 @@ namespace AdkNuGetGenerator
             {
                 return $"{this.Major}";
             }
+        }
+
+        public Version ToVersion()
+        {
+            return new Version(this.Major, this.Minor > 0 ? this.Minor : 0, this.Micro > 0 ? this.Micro : 0);
         }
 
         public SemanticVersion ToSematicVersion()

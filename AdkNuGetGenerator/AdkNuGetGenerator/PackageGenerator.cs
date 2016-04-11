@@ -5,6 +5,7 @@
 namespace AdkNuGetGenerator
 {
     using NuGet;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -36,6 +37,8 @@ namespace AdkNuGetGenerator
         public static async Task<DirectoryInfo> DownloadAndExtract(IArchiveContainer packageContainer, DirectoryInfo targetDirectory, bool overwrite, string hostOs)
         {
             var package = packageContainer.Archives.Single(p => p.HostOs == hostOs);
+
+            Console.WriteLine($"Downloading package {package.Url}");
             return await package.DownloadAndExtract(targetDirectory, overwrite: false);
         }
 
@@ -64,6 +67,8 @@ namespace AdkNuGetGenerator
         {
             foreach (var package in packageContainers)
             {
+                Console.WriteLine($"Generating package {package.ToString()}");
+
                 // Make sure the package is available locally
                 var dir = await DownloadAndExtract(package, targetDirectory, overwrite, hostOs);
                 string packagePath = $"{dir.FullName}.nuspec";

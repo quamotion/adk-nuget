@@ -28,7 +28,7 @@ namespace AdkNuGetGenerator
         private static async Task MainAsync()
         {
             // Load the normal & addon repositories.
-            var repository = await Repository.Load("https://dl.google.com/android/repository/repository-11.xml");
+            var repository = await Repository.Load("https://dl.google.com/android/repository/repository-12.xml");
             var addons = await Repository.Load("https://dl.google.com/android/repository/addon.xml");
 
             // Merge them so we have one repository to work with.
@@ -37,9 +37,30 @@ namespace AdkNuGetGenerator
             // Download the platform-tools, build-tools and usb_driver components.
             DirectoryInfo targetDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
-            await PackageGenerator.GeneratePackages(repository.BuildTools, File.ReadAllText("adk-build-tools.nuspec"), targetDirectory, false, "windows");
-            await PackageGenerator.GeneratePackages(repository.PlatformTools, File.ReadAllText("adk-platform-tools.nuspec"), targetDirectory, false, "windows");
-            await PackageGenerator.GeneratePackages(repository.Extras.Where(e => e.Path == "usb_driver"), File.ReadAllText("adk-usb-driver.nuspec"), targetDirectory, false, "windows");
+            Version latestBuildToolsVersion = new Version(23, 0, 2);
+            Version latestPlatformToolsVersion = new Version(23, 1, 0);
+            Version latestUsbDriverVersion = new Version(11, 0, 0);
+
+            await PackageGenerator.GeneratePackages(
+                repository.BuildTools.Where(c => c.Revision.ToVersion() > latestBuildToolsVersion && !c.Revision.Preview),
+                File.ReadAllText("adk-build-tools.nuspec"),
+                targetDirectory,
+                false,
+                "windows");
+
+            await PackageGenerator.GeneratePackages(
+                repository.PlatformTools.Where(c => c.Revision.ToVersion() > latestPlatformToolsVersion && !c.Revision.Preview),
+                File.ReadAllText("adk-platform-tools.nuspec"),
+                targetDirectory,
+                false,
+                "windows");
+
+            await PackageGenerator.GeneratePackages(
+                repository.Extras.Where(e => e.Path == "usb_driver").Where(c => c.Revision.ToVersion() > latestUsbDriverVersion && !c.Revision.Preview),
+                File.ReadAllText("adk-usb-driver.nuspec"),
+                targetDirectory,
+                false,
+                "windows");
         }
     }
 }
