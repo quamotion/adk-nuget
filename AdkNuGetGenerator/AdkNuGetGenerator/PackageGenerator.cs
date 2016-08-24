@@ -22,24 +22,49 @@ namespace AdkNuGetGenerator
         /// <param name="packageContainer">
         /// The packageto downloaded.
         /// </param>
-        /// <param name="targetDirectory">
+        /// <param name="repositoryDirectory">
         /// The directory to which to download the packages.
         /// </param>
         /// <param name="overwrite">
         /// If set to <see langword="true"/>, any existing directory will be deleted.
         /// </param>
-        /// <param name="hostOs">
-        /// The operating system for which to download the pacakges.
-        /// </param>
         /// <returns>
         /// A <see cref="Task"/> that represents the asynchronous operation
         /// </returns>
-        public static async Task<DirectoryInfo> DownloadAndExtract(IArchiveContainer packageContainer, DirectoryInfo targetDirectory, bool overwrite, string hostOs)
+        public static async Task<DirectoryInfo> DownloadAndExtract(IArchiveContainer packageContainer, DirectoryInfo repositoryDirectory, bool overwrite)
         {
-            var package = packageContainer.Archives.Single(p => p.HostOs == hostOs);
+            // Create the directory into which to extract
+            string directoryName = $"{packageContainer.Name}-{packageContainer.Revision}";
 
-            Console.WriteLine($"Downloading package {package.Url}");
-            return await package.DownloadAndExtract(targetDirectory, overwrite: false);
+            // Figure out whether that directory already exists.
+            DirectoryInfo targetDirectory;
+            targetDirectory = repositoryDirectory.EnumerateDirectories(directoryName).SingleOrDefault();
+
+            // If it does, proceed based on the value of the overwrite flag
+            if (targetDirectory != null)
+            {
+                if (overwrite)
+                {
+                    // Delete the directory & proceed as usual.
+                    targetDirectory.Delete(true);
+                    targetDirectory = null;
+                }
+                else
+                {
+                    // Nothing left to do.
+                    return targetDirectory;
+                }
+            }
+
+            targetDirectory = repositoryDirectory.CreateSubdirectory(directoryName);
+
+            foreach (var package in packageContainer.Archives)
+            {
+                Console.WriteLine($"Downloading package {package.Url} for {package.HostOs}");
+                await package.DownloadAndExtract(targetDirectory);
+            }
+
+            return targetDirectory;
         }
 
         /// <summary>
@@ -57,36 +82,42 @@ namespace AdkNuGetGenerator
         /// <param name="overwrite">
         /// If set to <see langword="true"/>, any existing directory will be deleted.
         /// </param>
-        /// <param name="hostOs">
-        /// The operating system for which to download the pacakges.
-        /// </param>
         /// <returns>
         /// A <see cref="Task"/> that represents the asynchronous operation.
         /// </returns>
-        public static async Task GeneratePackages(IEnumerable<IArchiveContainer> packageContainers, string packageTemplate, DirectoryInfo targetDirectory, bool overwrite, string hostOs)
+        public static async Task GeneratePackages(IEnumerable<IArchiveContainer> packageContainers, string packageTemplate, DirectoryInfo targetDirectory, bool overwrite)
         {
+            Dictionary<string, string> runtimes = new Dictionary<string, string>();
+            runtimes.Add("win", "windows");
+            runtimes.Add("linux", "linux");
+            runtimes.Add("osx", "macosx");
+
             foreach (var package in packageContainers)
             {
                 Console.WriteLine($"Generating package {package.ToString()}");
 
                 // Make sure the package is available locally
-                var dir = await DownloadAndExtract(package, targetDirectory, overwrite, hostOs);
-                string packagePath = $"{dir.FullName}.nuspec";
-
-                dir = dir.EnumerateDirectories().Single();
+                var dir = await DownloadAndExtract(package, targetDirectory, overwrite);
 
                 // Generate the .nuspec file
-                string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString());
-                nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
-
-                File.WriteAllText(packagePath, nugetPackage);
-
-                PackageBuilder builder = new PackageBuilder(packagePath, null, false);
-                var packageOutputPath = Path.Combine(targetDirectory.FullName, $"{builder.Id}-{builder.Version}.nupkg");
-
-                using (Stream stream = File.Open(packageOutputPath, FileMode.Create, FileAccess.ReadWrite))
+                foreach (var runtime in runtimes)
                 {
-                    builder.Save(stream);
+                    string packagePath = $"{dir.FullName}-{runtime.Key}.nuspec";
+
+                    string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString() + "-beta001");
+                    nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
+                    nugetPackage = nugetPackage.Replace("{Runtime}", runtime.Key);
+                    nugetPackage = nugetPackage.Replace("{OS}", runtime.Value);
+
+                    File.WriteAllText(packagePath, nugetPackage);
+
+                    PackageBuilder builder = new PackageBuilder(packagePath, null, false);
+                    var packageOutputPath = Path.Combine(targetDirectory.FullName, $"{builder.Id}-{builder.Version}.nupkg");
+
+                    using (Stream stream = File.Open(packageOutputPath, FileMode.Create, FileAccess.ReadWrite))
+                    {
+                        builder.Save(stream);
+                    }
                 }
             }
         }

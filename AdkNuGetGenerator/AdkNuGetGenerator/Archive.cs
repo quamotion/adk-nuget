@@ -152,32 +152,14 @@ namespace AdkNuGetGenerator
         /// A <see cref="Task"/> that represents the asynchronous operation, and returns the
         /// directory to which the package has been extracted.
         /// </returns>
-        public async Task<DirectoryInfo> DownloadAndExtract(DirectoryInfo repositoryDirectory, bool overwrite)
+        public async Task<DirectoryInfo> DownloadAndExtract(DirectoryInfo repositoryDirectory)
         {
-            // Create the directory into which to extract
-            string directoryName = Path.ChangeExtension(Path.GetFileName(this.Url.LocalPath), null);
-
-            // Figure out whether that directory already exists.
-            DirectoryInfo targetDirectory;
-            targetDirectory = repositoryDirectory.EnumerateDirectories(directoryName).SingleOrDefault();
-
-            // If it does, proceed based on the value of the overwrite flag
-            if (targetDirectory != null)
+            if (repositoryDirectory == null)
             {
-                if (overwrite)
-                {
-                    // Delete the directory & proceed as usual.
-                    targetDirectory.Delete(true);
-                    targetDirectory = null;
-                }
-                else
-                {
-                    // Nothing left to do.
-                    return targetDirectory;
-                }
+                throw new ArgumentNullException(nameof(repositoryDirectory));
             }
 
-            targetDirectory = repositoryDirectory.CreateSubdirectory(directoryName);
+            var targetDirectory = repositoryDirectory.CreateSubdirectory(this.HostOs);
 
             // Temporary file to which to download the file.
             string tempFile = null;

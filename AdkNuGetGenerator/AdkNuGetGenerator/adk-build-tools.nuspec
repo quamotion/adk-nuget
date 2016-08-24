@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>adk-build-tools</id>
+    <id>runtime.{Runtime}.adk-build-tools</id>
     <version>{Version}</version>
     <authors>The Android Open Source Project</authors>
     <owners>Quamotion</owners>
@@ -20,6 +20,8 @@
   </metadata>
 
   <files>
-    <file src="{Dir}\**\*.*" target="tools\" />
+    <file src="{Dir}\{OS}\android-*\aapt*" target="runtimes\{Runtime}\adk\build-tools\" />
+    <file src="{Dir}\{OS}\android-*\aapt2*" target="runtimes\{Runtime}\adk\build-tools\" />
+    <file src="{Dir}\{OS}\android-*\zipalign*" target="runtimes\{Runtime}\adk\build-tools\" />
   </files>
 </package>

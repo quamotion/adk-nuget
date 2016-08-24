@@ -24,5 +24,13 @@ namespace AdkNuGetGenerator
         {
             get;
         }
+
+        /// <summary>
+        /// Gets the name of the component.
+        /// </summary>
+        string Name
+        {
+            get;
+        }
     }
 }

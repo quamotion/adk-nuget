@@ -41,6 +41,12 @@ namespace AdkNuGetGenerator
             set;
         }
 
+        /// <inheritdoc/>
+        public string Name
+        {
+            get { return this.Path; }
+        }
+
         /// <summary>
         /// Gets or sets a description of the extra component.
         /// </summary>
