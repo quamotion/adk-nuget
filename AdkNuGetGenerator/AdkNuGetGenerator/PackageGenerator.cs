@@ -104,10 +104,28 @@ namespace AdkNuGetGenerator
                 {
                     string packagePath = $"{dir.FullName}-{runtime.Key}.nuspec";
 
-                    string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString() + "-beta001");
+                    string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString() + "-beta004");
                     nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
                     nugetPackage = nugetPackage.Replace("{Runtime}", runtime.Key);
                     nugetPackage = nugetPackage.Replace("{OS}", runtime.Value);
+
+                    switch (runtime.Key)
+                    {
+                        case "win":
+                            nugetPackage = nugetPackage.Replace("{LibPrefix}", string.Empty);
+                            nugetPackage = nugetPackage.Replace("{LibExtension}", ".dll");
+                            break;
+
+                        case "linux":
+                            nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
+                            nugetPackage = nugetPackage.Replace("{LibExtension}", ".so");
+                            break;
+
+                        case "osx":
+                            nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
+                            nugetPackage = nugetPackage.Replace("{LibExtension}", ".dylib");
+                            break;
+                    }
 
                     File.WriteAllText(packagePath, nugetPackage);
 
