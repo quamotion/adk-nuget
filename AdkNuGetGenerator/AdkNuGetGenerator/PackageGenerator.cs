@@ -85,7 +85,7 @@ namespace AdkNuGetGenerator
         /// <returns>
         /// A <see cref="Task"/> that represents the asynchronous operation.
         /// </returns>
-        public static async Task GeneratePackages(IEnumerable<IArchiveContainer> packageContainers, string packageTemplate, DirectoryInfo targetDirectory, bool overwrite)
+        public static async Task GeneratePackages(IEnumerable<IArchiveContainer> packageContainers, string packageTemplate, DirectoryInfo targetDirectory, bool overwrite, string versionSuffix)
         {
             Dictionary<string, string> runtimes = new Dictionary<string, string>();
             runtimes.Add("win", "windows");
@@ -104,28 +104,32 @@ namespace AdkNuGetGenerator
                 {
                     string packagePath = $"{dir.FullName}-{runtime.Key}.nuspec";
 
-                    string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString() + "-beta004");
-                    nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
-                    nugetPackage = nugetPackage.Replace("{Runtime}", runtime.Key);
-                    nugetPackage = nugetPackage.Replace("{OS}", runtime.Value);
+                    string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString() + versionSuffix);
 
                     switch (runtime.Key)
                     {
                         case "win":
+                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", @"<file src=""{Dir}\..\vcruntime140.dll"" target=""runtimes\{Runtime}\native\vcruntime140.dll"" />");
                             nugetPackage = nugetPackage.Replace("{LibPrefix}", string.Empty);
                             nugetPackage = nugetPackage.Replace("{LibExtension}", ".dll");
                             break;
 
                         case "linux":
+                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
                             nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
                             nugetPackage = nugetPackage.Replace("{LibExtension}", ".so");
                             break;
 
                         case "osx":
+                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
                             nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
                             nugetPackage = nugetPackage.Replace("{LibExtension}", ".dylib");
                             break;
                     }
+
+                    nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
+                    nugetPackage = nugetPackage.Replace("{Runtime}", runtime.Key);
+                    nugetPackage = nugetPackage.Replace("{OS}", runtime.Value);
 
                     File.WriteAllText(packagePath, nugetPackage);
 

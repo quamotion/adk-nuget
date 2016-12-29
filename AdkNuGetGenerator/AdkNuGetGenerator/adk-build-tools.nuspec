@@ -25,5 +25,6 @@
     <file src="{Dir}\{OS}\android-*\zipalign*" target="runtimes\{Runtime}\native\" />
     <file src="{Dir}\..\{LibPrefix}lighthouse-x86{LibExtension}" target="runtimes\{Runtime}\native\{LibPrefix}adk-build-tools-lighthouse-x86{LibExtension}" />
     <file src="{Dir}\..\{LibPrefix}lighthouse-x64{LibExtension}" target="runtimes\{Runtime}\native\{LibPrefix}adk-build-tools-lighthouse-x64{LibExtension}" />
+    {PlatformSpecific}
   </files>
 </package>

@@ -37,31 +37,36 @@ namespace AdkNuGetGenerator
             // Download the platform-tools, build-tools and usb_driver components.
             DirectoryInfo targetDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
-            Version latestBuildToolsVersion = new Version(23, 0, 3);
-            Version latestPlatformToolsVersion = new Version(23, 1, 0);
+            Version latestBuildToolsVersion = new Version(25, 0, 2);
+            Version latestPlatformToolsVersion = new Version(25, 0, 3);
             Version latestUsbDriverVersion = new Version(11, 0, 0);
 
             var recentBuildTools = repository.BuildTools.Where(c => c.Revision.ToVersion() > latestBuildToolsVersion && !c.Revision.Preview).ToArray();
             var recentPlatformTools = repository.PlatformTools.Where(c => c.Revision.ToVersion() > latestPlatformToolsVersion && !c.Revision.Preview).ToArray();
             var recentUsbDrivers = repository.Extras.Where(e => e.Path == "usb_driver").Where(c => c.Revision.ToVersion() > latestUsbDriverVersion && !c.Revision.Preview).ToArray();
 
+            string versionSuffix = string.Empty; // use thinigs like -beta004 if you want to add NuGet version suffixes
+
             await PackageGenerator.GeneratePackages(
                 recentBuildTools,
                 File.ReadAllText("adk-build-tools.nuspec"),
                 targetDirectory,
-                false);
+                false,
+                versionSuffix);
 
             await PackageGenerator.GeneratePackages(
                 recentPlatformTools,
                 File.ReadAllText("adk-platform-tools.nuspec"),
                 targetDirectory,
-                false);
+                false,
+                versionSuffix);
 
             await PackageGenerator.GeneratePackages(
                 recentUsbDrivers,
                 File.ReadAllText("adk-usb-driver.nuspec"),
                 targetDirectory,
-                false);
+                false,
+                versionSuffix);
         }
     }
 }
