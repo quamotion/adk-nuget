@@ -109,19 +109,22 @@ namespace AdkNuGetGenerator
                     switch (runtime.Key)
                     {
                         case "win":
-                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", @"<file src=""{Dir}\..\vcruntime140.dll"" target=""runtimes\{Runtime}\native\vcruntime140.dll"" />");
+                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
+                            nugetPackage = nugetPackage.Replace("{Dependencies}", @"<dependency id=""runtime.win7-x64.vcruntime140"" version=""14.0.24406-r158"" /><dependency id=""runtime.win7-x86.vcruntime140"" version=""14.0.24406-r158"" />");
                             nugetPackage = nugetPackage.Replace("{LibPrefix}", string.Empty);
                             nugetPackage = nugetPackage.Replace("{LibExtension}", ".dll");
                             break;
 
                         case "linux":
                             nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
+                            nugetPackage = nugetPackage.Replace("{Dependencies}", string.Empty);
                             nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
                             nugetPackage = nugetPackage.Replace("{LibExtension}", ".so");
                             break;
 
                         case "osx":
                             nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
+                            nugetPackage = nugetPackage.Replace("{Dependencies}", string.Empty);
                             nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
                             nugetPackage = nugetPackage.Replace("{LibExtension}", ".dylib");
                             break;

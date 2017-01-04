@@ -17,6 +17,10 @@
     <copyright>Copyright (c) The Android Open Source Project.</copyright>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <releaseNotes>http://developer.android.com/tools/sdk/tools-notes.html</releaseNotes>
+
+    <dependencies>
+      {Dependencies}
+    </dependencies>
   </metadata>
 
   <files>

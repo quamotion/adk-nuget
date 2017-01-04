@@ -37,15 +37,15 @@ namespace AdkNuGetGenerator
             // Download the platform-tools, build-tools and usb_driver components.
             DirectoryInfo targetDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
-            Version latestBuildToolsVersion = new Version(25, 0, 2);
-            Version latestPlatformToolsVersion = new Version(25, 0, 3);
+            Version latestBuildToolsVersion = new Version(25, 0, 1);
+            Version latestPlatformToolsVersion = new Version(25, 0, 2);
             Version latestUsbDriverVersion = new Version(11, 0, 0);
 
             var recentBuildTools = repository.BuildTools.Where(c => c.Revision.ToVersion() > latestBuildToolsVersion && !c.Revision.Preview).ToArray();
             var recentPlatformTools = repository.PlatformTools.Where(c => c.Revision.ToVersion() > latestPlatformToolsVersion && !c.Revision.Preview).ToArray();
             var recentUsbDrivers = repository.Extras.Where(e => e.Path == "usb_driver").Where(c => c.Revision.ToVersion() > latestUsbDriverVersion && !c.Revision.Preview).ToArray();
 
-            string versionSuffix = string.Empty; // use thinigs like -beta004 if you want to add NuGet version suffixes
+            string versionSuffix = ".1-beta001"; // string.Empty; // use thinigs like -beta004 if you want to add NuGet version suffixes
 
             await PackageGenerator.GeneratePackages(
                 recentBuildTools,
