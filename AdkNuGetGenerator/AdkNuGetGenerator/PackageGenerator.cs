@@ -110,7 +110,7 @@ namespace AdkNuGetGenerator
                     {
                         case "win":
                             nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
-                            nugetPackage = nugetPackage.Replace("{Dependencies}", @"<dependency id=""runtime.win7-x64.vcruntime140"" version=""14.0.24406-r158"" /><dependency id=""runtime.win7-x86.vcruntime140"" version=""14.0.24406-r158"" />");
+                            nugetPackage = nugetPackage.Replace("{Dependencies}", @"<dependency id=""runtime.win7-x64.vcruntime140"" version=""14.0.24406"" /><dependency id=""runtime.win7-x86.vcruntime140"" version=""14.0.24406"" />");
                             nugetPackage = nugetPackage.Replace("{LibPrefix}", string.Empty);
                             nugetPackage = nugetPackage.Replace("{LibExtension}", ".dll");
                             break;
