@@ -33,7 +33,7 @@ jobs:
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/native
       cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x86.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/libadk-platform-tools-lighthouse.dylib
       cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x64.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x64/libadk-platform-tools-lighthouse.dylib
-      displayName: Copy lighthouse artifacts
+    displayName: Copy lighthouse artifacts
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)/runtimes'
@@ -53,7 +53,7 @@ jobs:
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/native
       cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x86.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/libadk-platform-tools-lighthouse.so
       cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x64.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x64/libadk-platform-tools-lighthouse.so
-      displayName: Copy lighthouse artifacts
+    displayName: Copy lighthouse artifacts
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)/runtimes'
