@@ -73,9 +73,7 @@ jobs:
       artifactName: runtimes
   - script: |
       cd %BUILD_SOURCESDIRECTORY%/AdkNuGetGenerator/
-      "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe"
-      cd bin\Debug
-      AdkNuGetGenerator.exe
+      dotnet run
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\packages
       cp *.nuget %BUILD_ARTIFACTSTAGINGDIRECTORY%\packages
   - task: PublishBuildArtifacts@1
