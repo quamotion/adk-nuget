@@ -5,8 +5,8 @@ jobs:
   steps:
   - script: |
       cd %BUILD_SOURCESDIRECTORY%\AdkNuGetGenerator\lighthouse\windows
-      msbuild /p:Configuration=Release /p:Platform=Win32
-      msbuild /p:Configuration=Release /p:Platform=x64
+      %msbuild% /p:Configuration=Release /p:Platform=Win32
+      %msbuild% /p:Configuration=Release /p:Platform=x64
     displayName: Compile lighthouse code
   - script: |
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\runtimes\win7-x86\native
