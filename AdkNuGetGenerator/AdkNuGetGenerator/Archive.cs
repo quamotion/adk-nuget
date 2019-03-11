@@ -145,9 +145,6 @@ namespace AdkNuGetGenerator
         /// The directory to which to extract the package. A new sub folder will be created
         /// in this directory.
         /// </param>
-        /// <param name="overwrite">
-        /// If set to <see langword="true"/>, any existing directory will be deleted.
-        /// </param>
         /// <returns>
         /// A <see cref="Task"/> that represents the asynchronous operation, and returns the
         /// directory to which the package has been extracted.

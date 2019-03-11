@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>runtime.{Runtime}.adk-platform-tools</id>
+    <id>adk-platform-tools</id>
     <version>{Version}</version>
     <authors>The Android Open Source Project</authors>
     <owners>Quamotion</owners>
@@ -11,7 +11,7 @@
     <summary>This package contains the platform-tools from the Android SDK.</summary>
     <description>
       Platform Tools is a component of the Android SDK required for working with Android devices.
-      It contains tools such as adb.exe and fatboot.exe.
+      It contains tools such as adb and fatboot.
     </description>
     <tags>Android ADK Android Development Kit </tags>
     <copyright>Copyright (c) The Android Open Source Project.</copyright>
@@ -19,14 +19,17 @@
     <releaseNotes>http://developer.android.com/tools/sdk/tools-notes.html</releaseNotes>
 
     <dependencies>
-      {Dependencies}
+      <dependency id="runtime.win7-x64.vcruntime140" version="14.0.24406" />
+      <dependency id="runtime.win7-x86.vcruntime140" version="14.0.24406" />"
     </dependencies>
   </metadata>
 
   <files>
-    <file src="{Dir}\{OS}\platform-tools\adb*" target="runtimes\{Runtime}\native\" />
-    <file src="{Dir}\..\{LibPrefix}lighthouse-x86{LibExtension}" target="runtimes\{Runtime}\native\{LibPrefix}adk-platform-tools-lighthouse-x86{LibExtension}" />
-    <file src="{Dir}\..\{LibPrefix}lighthouse-x64{LibExtension}" target="runtimes\{Runtime}\native\{LibPrefix}adk-platform-tools-lighthouse-x64{LibExtension}" />
-    {PlatformSpecific}
-  </files>
+    <file src="{Dir}\windows\platform-tools\adb*" target="runtimes\win7-x64\native\" />
+    <file src="{Dir}\..\runtimes\win7-x64\native\lighthouse.dll" target="runtimes\win7-x64\native\adk-platform-tools-lighthouse.dll" />
+    <file src="{Dir}\linux\platform-tools\adb*" target="runtimes\linux-x64\native\" />
+    <file src="{Dir}\..\runtimes\linux-x64\native\liblighthouse.so" target="runtimes\linux-x64\native\libadk-platform-tools-lighthouse.so" />
+    <file src="{Dir}\macosx\platform-tools\adb*" target="runtimes\osx-64\native\" />
+    <file src="{Dir}\..\runtimes\osx-x64\native\liblighthouse.dylib" target="runtimes\osx-x64\native\libadk-platform-tools-lighthouse.dylib" />
+</files>
 </package>

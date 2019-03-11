@@ -4,12 +4,12 @@
 
 namespace AdkNuGetGenerator
 {
-    using NuGet;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
+    using NuGet.Packaging;
 
     /// <summary>
     /// Generates NuGet packages for Android SDK components.
@@ -82,16 +82,14 @@ namespace AdkNuGetGenerator
         /// <param name="overwrite">
         /// If set to <see langword="true"/>, any existing directory will be deleted.
         /// </param>
+        /// <param name="versionSuffix">
+        /// Any optional version suffix. Useful when re-releasing a previous version.
+        /// </param>
         /// <returns>
         /// A <see cref="Task"/> that represents the asynchronous operation.
         /// </returns>
         public static async Task GeneratePackages(IEnumerable<IArchiveContainer> packageContainers, string packageTemplate, DirectoryInfo targetDirectory, bool overwrite, string versionSuffix)
         {
-            Dictionary<string, string> runtimes = new Dictionary<string, string>();
-            runtimes.Add("win", "windows");
-            runtimes.Add("linux", "linux");
-            runtimes.Add("osx", "macosx");
-
             foreach (var package in packageContainers)
             {
                 Console.WriteLine($"Generating package {package.ToString()}");
@@ -100,49 +98,20 @@ namespace AdkNuGetGenerator
                 var dir = await DownloadAndExtract(package, targetDirectory, overwrite);
 
                 // Generate the .nuspec file
-                foreach (var runtime in runtimes)
+                string packagePath = $"{dir.FullName}.nuspec";
+
+                string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString() + versionSuffix);
+
+                nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
+
+                File.WriteAllText(packagePath, nugetPackage);
+
+                PackageBuilder builder = new PackageBuilder(packagePath, null, false);
+                var packageOutputPath = Path.Combine(targetDirectory.FullName, $"{builder.Id}-{builder.Version}.nupkg");
+
+                using (Stream stream = File.Open(packageOutputPath, FileMode.Create, FileAccess.ReadWrite))
                 {
-                    string packagePath = $"{dir.FullName}-{runtime.Key}.nuspec";
-
-                    string nugetPackage = packageTemplate.Replace("{Version}", package.Revision.ToSematicVersion().ToString() + versionSuffix);
-
-                    switch (runtime.Key)
-                    {
-                        case "win":
-                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
-                            nugetPackage = nugetPackage.Replace("{Dependencies}", @"<dependency id=""runtime.win7-x64.vcruntime140"" version=""14.0.24406"" /><dependency id=""runtime.win7-x86.vcruntime140"" version=""14.0.24406"" />");
-                            nugetPackage = nugetPackage.Replace("{LibPrefix}", string.Empty);
-                            nugetPackage = nugetPackage.Replace("{LibExtension}", ".dll");
-                            break;
-
-                        case "linux":
-                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
-                            nugetPackage = nugetPackage.Replace("{Dependencies}", string.Empty);
-                            nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
-                            nugetPackage = nugetPackage.Replace("{LibExtension}", ".so");
-                            break;
-
-                        case "osx":
-                            nugetPackage = nugetPackage.Replace("{PlatformSpecific}", string.Empty);
-                            nugetPackage = nugetPackage.Replace("{Dependencies}", string.Empty);
-                            nugetPackage = nugetPackage.Replace("{LibPrefix}", "lib");
-                            nugetPackage = nugetPackage.Replace("{LibExtension}", ".dylib");
-                            break;
-                    }
-
-                    nugetPackage = nugetPackage.Replace("{Dir}", dir.FullName);
-                    nugetPackage = nugetPackage.Replace("{Runtime}", runtime.Key);
-                    nugetPackage = nugetPackage.Replace("{OS}", runtime.Value);
-
-                    File.WriteAllText(packagePath, nugetPackage);
-
-                    PackageBuilder builder = new PackageBuilder(packagePath, null, false);
-                    var packageOutputPath = Path.Combine(targetDirectory.FullName, $"{builder.Id}-{builder.Version}.nupkg");
-
-                    using (Stream stream = File.Open(packageOutputPath, FileMode.Create, FileAccess.ReadWrite))
-                    {
-                        builder.Save(stream);
-                    }
+                    builder.Save(stream);
                 }
             }
         }
