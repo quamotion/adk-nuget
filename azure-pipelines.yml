@@ -45,7 +45,6 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  steps:
   - script: |
       cd ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux
       ./build.sh
