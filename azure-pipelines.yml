@@ -31,8 +31,8 @@ jobs:
   - script: |
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x64/native
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/native
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x86.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/liblighthouse.dylib
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x64.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x64/liblighthouse.dylib
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x86.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/native/liblighthouse.dylib
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x64.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x64/native/liblighthouse.dylib
     displayName: Copy lighthouse artifacts
   - task: PublishBuildArtifacts@1
     inputs:
@@ -51,8 +51,8 @@ jobs:
   - script: |
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x64/native
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/native
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x86.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/liblighthouse.so
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x64.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x64/liblighthouse.so
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x86.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/native/liblighthouse.so
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x64.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x64/native/liblighthouse.so
     displayName: Copy lighthouse artifacts
   - task: PublishBuildArtifacts@1
     inputs:
@@ -70,4 +70,4 @@ jobs:
   steps:
   - script: |
       cd ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/
-      msbuild
+      "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe"
