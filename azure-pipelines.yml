@@ -5,14 +5,14 @@ jobs:
   steps:
   - script: |
       cd %BUILD_SOURCESDIRECTORY%\AdkNuGetGenerator\lighthouse\windows
-      %msbuild% /p:Configuration=Release /p:Platform=Win32
-      %msbuild% /p:Configuration=Release /p:Platform=x64
+      "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe" /p:Configuration=Release /p:Platform=Win32
+      "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe" /p:Configuration=Release /p:Platform=x64
     displayName: Compile lighthouse code
   - script: |
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\runtimes\win7-x86\native
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\runtimes\win7-x64\native
-      copy %BUILD_SOURCESDIRECTORY%\AdkNuGetGenerator\lighthouse\windows\Release\pinvoke-lighthouse.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\runtimes\win7-x86\native\adk-platform-tools-lighthouse.dll
-      copy %BUILD_SOURCESDIRECTORY%\AdkNuGetGenerator\lighthouse\windows\x64\Release\pinvoke-lighthouse.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\runtimes\win7-x64\native\adk-platform-tools-lighthouse.dll
+      copy %BUILD_SOURCESDIRECTORY%\AdkNuGetGenerator\lighthouse\windows\Release\pinvoke-lighthouse.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\runtimes\win7-x86\native\lighthouse.dll
+      copy %BUILD_SOURCESDIRECTORY%\AdkNuGetGenerator\lighthouse\windows\x64\Release\pinvoke-lighthouse.dll %BUILD_ARTIFACTSTAGINGDIRECTORY%\runtimes\win7-x64\native\lighthouse.dll
     displayName: Copy lighthouse artifacts
   - task: PublishBuildArtifacts@1
     inputs:
@@ -31,8 +31,8 @@ jobs:
   - script: |
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x64/native
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/native
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x86.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/libadk-platform-tools-lighthouse.dylib
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x64.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x64/libadk-platform-tools-lighthouse.dylib
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x86.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x86/liblighthouse.dylib
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/osx/liblighthouse-x64.dylib ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/osx-x64/liblighthouse.dylib
     displayName: Copy lighthouse artifacts
   - task: PublishBuildArtifacts@1
     inputs:
@@ -51,8 +51,8 @@ jobs:
   - script: |
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x64/native
       mkdir -p ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/native
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x86.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/libadk-platform-tools-lighthouse.so
-      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x64.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x64/libadk-platform-tools-lighthouse.so
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x86.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x86/liblighthouse.so
+      cp ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/lighthouse/linux/liblighthouse-x64.so ${BUILD_ARTIFACTSTAGINGDIRECTORY}/runtimes/linux-x64/liblighthouse.so
     displayName: Copy lighthouse artifacts
   - task: PublishBuildArtifacts@1
     inputs:
