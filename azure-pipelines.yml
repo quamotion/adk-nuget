@@ -68,6 +68,18 @@ jobs:
   pool:
     vmImage: 'VS2017-Win2016'
   steps:
+  - task: DownloadBuildArtifacts@0
+    inputs:
+      artifactName: runtimes
   - script: |
-      cd ${BUILD_SOURCESDIRECTORY}/AdkNuGetGenerator/
+      cd %BUILD_SOURCESDIRECTORY%/AdkNuGetGenerator/
       "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe"
+      cd bin\Debug
+      AdkNuGetGenerator.exe
+      mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\packages
+      cp *.nuget %BUILD_ARTIFACTSTAGINGDIRECTORY%\packages
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: '$(Build.ArtifactStagingDirectory)/packages'
+      artifactName: packages
+    displayName: Publish artifacts
