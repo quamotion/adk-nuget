@@ -4,10 +4,10 @@
 
 namespace AdkNuGetGenerator
 {
-    using NuGet;
     using System;
     using System.Linq;
     using System.Xml.Linq;
+    using NuGet.Versioning;
 
     /// <summary>
     /// Represents a version number.
@@ -98,11 +98,23 @@ namespace AdkNuGetGenerator
             }
         }
 
+        /// <summary>
+        /// Converst this revision to a <see cref="Version"/>.
+        /// </summary>
+        /// <returns>
+        /// An equivalent version.
+        /// </returns>
         public Version ToVersion()
         {
             return new Version(this.Major, this.Minor > 0 ? this.Minor : 0, this.Micro > 0 ? this.Micro : 0);
         }
 
+        /// <summary>
+        /// Converts this revision to a <see cref="SemanticVersion"/>.
+        /// </summary>
+        /// <returns>
+        /// An equivalent <see cref="SemanticVersion"/>.
+        /// </returns>
         public SemanticVersion ToSematicVersion()
         {
             return new SemanticVersion(this.Major, this.Minor > 0 ? this.Minor : 0, this.Micro > 0 ? this.Micro : 0, null);

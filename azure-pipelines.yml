@@ -72,10 +72,11 @@ jobs:
     inputs:
       artifactName: runtimes
   - script: |
-      cd %BUILD_SOURCESDIRECTORY%/AdkNuGetGenerator/
+      cd %BUILD_SOURCESDIRECTORY%/AdkNuGetGenerator/AdkNuGetGenerator/
+      robocopy /S %SYSTEM_ARTIFACTSDIRECTORY%\ .
       dotnet run
       mkdir %BUILD_ARTIFACTSTAGINGDIRECTORY%\packages
-      cp *.nuget %BUILD_ARTIFACTSTAGINGDIRECTORY%\packages
+      copy *.nupkg %BUILD_ARTIFACTSTAGINGDIRECTORY%\packages
   - task: PublishBuildArtifacts@1
     inputs:
       pathtoPublish: '$(Build.ArtifactStagingDirectory)/packages'

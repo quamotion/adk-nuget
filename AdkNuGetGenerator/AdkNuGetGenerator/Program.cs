@@ -38,8 +38,8 @@ namespace AdkNuGetGenerator
             DirectoryInfo targetDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
             Version latestBuildToolsVersion = new Version(28, 0, 0);
-            Version latestPlatformToolsVersion = new Version(28, 0, 0);
-            Version latestUsbDriverVersion = new Version(11, 0, 0);
+            Version latestPlatformToolsVersion = new Version(27, 0, 0);
+            Version latestUsbDriverVersion = new Version(10, 0, 0);
 
             var recentBuildTools = repository.BuildTools.Where(c => c.Revision.ToVersion() > latestBuildToolsVersion && !c.Revision.Preview).ToArray();
             var recentPlatformTools = repository.PlatformTools.Where(c => c.Revision.ToVersion() > latestPlatformToolsVersion && !c.Revision.Preview).ToArray();

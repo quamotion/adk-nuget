@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>runtime.{Runtime}.adk-build-tools</id>
+    <id>adk-build-tools</id>
     <version>{Version}</version>
     <authors>The Android Open Source Project</authors>
     <owners>Quamotion</owners>
@@ -19,16 +19,23 @@
     <releaseNotes>http://developer.android.com/tools/sdk/tools-notes.html</releaseNotes>
 
     <dependencies>
-        {Dependencies}
+      <dependency id="runtime.win7-x64.vcruntime140" version="14.0.24406" />
+      <dependency id="runtime.win7-x86.vcruntime140" version="14.0.24406" />"
     </dependencies>
   </metadata>
 
   <files>
-    <file src="{Dir}\{OS}\android-*\aapt*" target="runtimes\{Runtime}\native\" />
-    <file src="{Dir}\{OS}\android-*\aapt2*" target="runtimes\{Runtime}\native\" />
-    <file src="{Dir}\{OS}\android-*\zipalign*" target="runtimes\{Runtime}\native\" />
-    <file src="{Dir}\..\{LibPrefix}lighthouse-x86{LibExtension}" target="runtimes\{Runtime}\native\{LibPrefix}adk-build-tools-lighthouse-x86{LibExtension}" />
-    <file src="{Dir}\..\{LibPrefix}lighthouse-x64{LibExtension}" target="runtimes\{Runtime}\native\{LibPrefix}adk-build-tools-lighthouse-x64{LibExtension}" />
-    {PlatformSpecific}
+    <file src="{Dir}\linux\android-*\aapt*" target="runtimes\linux-x64\native\" />
+    <file src="{Dir}\linux\android-*\aapt2*" target="runtimes\linux-x64\native\" />
+    <file src="{Dir}\linux\android-*\zipalign*" target="runtimes\linux-x64\native\" />
+    <file src="{Dir}\..\runtimes\linux-x64\native\liblighthouse.so" target="runtimes\linux-x64\native\libadk-build-tools-lighthouse.so" />
+    <file src="{Dir}\windows\android-*\aapt*" target="runtimes\win7-x64\native\" />
+    <file src="{Dir}\windows\android-*\aapt2*" target="runtimes\win7-x64\native\" />
+    <file src="{Dir}\windows\android-*\zipalign*" target="runtimes\win7-x64\native\" />
+    <file src="{Dir}\..\runtimes\win7-x64\native\lighthouse.dll" target="runtimes\win7-x64\native\adk-build-tools-lighthouse.dll" />
+    <file src="{Dir}\macosx\android-*\aapt*" target="runtimes\osx-x64\native\" />
+    <file src="{Dir}\macosx\android-*\aapt2*" target="runtimes\osx-x64\native\" />
+    <file src="{Dir}\macosx\android-*\zipalign*" target="runtimes\osx-x64\native\" />
+    <file src="{Dir}\..\runtimes\osx-x64\native\liblighthouse.dylib" target="runtimes\osx-x64\native\libadk-build-tools-lighthouse.dylib" />
   </files>
 </package>
