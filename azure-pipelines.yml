@@ -21,7 +21,6 @@ jobs:
     displayName: Publish artifacts
 
 - job: native_macos
-  dependsOn: windows_build
   pool:
     vmImage: 'xcode9-macos10.13'
   steps:
