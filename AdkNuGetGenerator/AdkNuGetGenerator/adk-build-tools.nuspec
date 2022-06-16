@@ -17,11 +17,6 @@
     <copyright>Copyright (c) The Android Open Source Project.</copyright>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <releaseNotes>http://developer.android.com/tools/sdk/tools-notes.html</releaseNotes>
-
-    <dependencies>
-      <dependency id="runtime.win7-x64.vcruntime140" version="14.0.24406" />
-      <dependency id="runtime.win7-x86.vcruntime140" version="14.0.24406" />"
-    </dependencies>
   </metadata>
 
   <files>
