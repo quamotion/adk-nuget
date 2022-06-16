@@ -21,10 +21,7 @@
 
   <files>
     <file src="{Dir}\windows\platform-tools\adb*" target="runtimes\win7-x64\native\" />
-    <file src="{Dir}\..\runtimes\win7-x64\native\lighthouse.dll" target="runtimes\win7-x64\native\adk-platform-tools-lighthouse.dll" />
     <file src="{Dir}\linux\platform-tools\adb*" target="runtimes\linux-x64\native\" />
-    <file src="{Dir}\..\runtimes\linux-x64\native\liblighthouse.so" target="runtimes\linux-x64\native\libadk-platform-tools-lighthouse.so" />
     <file src="{Dir}\macosx\platform-tools\adb*" target="runtimes\osx-64\native\" />
-    <file src="{Dir}\..\runtimes\osx-x64\native\liblighthouse.dylib" target="runtimes\osx-x64\native\libadk-platform-tools-lighthouse.dylib" />
 </files>
 </package>
