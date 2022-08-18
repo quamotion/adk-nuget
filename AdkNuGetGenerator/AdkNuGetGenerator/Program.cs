@@ -28,11 +28,7 @@ namespace AdkNuGetGenerator
         private static async Task MainAsync()
         {
             // Load the normal & addon repositories.
-            var repository = await Repository.Load("https://dl.google.com/android/repository/repository-12.xml");
-            var addons = await Repository.Load("https://dl.google.com/android/repository/addon.xml");
-
-            // Merge them so we have one repository to work with.
-            repository.Merge(addons);
+            var repository = await Repository2.Load("https://dl.google.com/android/repository/repository2-1.xml");
 
             // Download the platform-tools, build-tools and usb_driver components.
             DirectoryInfo targetDirectory = new DirectoryInfo(Environment.CurrentDirectory);
@@ -43,9 +39,8 @@ namespace AdkNuGetGenerator
 
             var recentBuildTools = repository.BuildTools.Where(c => c.Revision.ToVersion() > latestBuildToolsVersion && !c.Revision.Preview).ToArray();
             var recentPlatformTools = repository.PlatformTools.Where(c => c.Revision.ToVersion() > latestPlatformToolsVersion && !c.Revision.Preview).ToArray();
-            var recentUsbDrivers = repository.Extras.Where(e => e.Path == "usb_driver").Where(c => c.Revision.ToVersion() > latestUsbDriverVersion && !c.Revision.Preview).ToArray();
 
-            Console.WriteLine($"Processing {recentBuildTools.Length} build tool packages, {recentPlatformTools.Length} platform tool packages and {recentUsbDrivers.Length} USB driver packages");
+            Console.WriteLine($"Processing {recentBuildTools.Length} build tool packages, {recentPlatformTools.Length} platform tool packages");
 
             string versionSuffix = string.Empty; // use things like -beta004 if you want to add NuGet version suffixes
 
@@ -59,13 +54,6 @@ namespace AdkNuGetGenerator
             await PackageGenerator.GeneratePackages(
                 recentPlatformTools,
                 File.ReadAllText("adk-platform-tools.nuspec"),
-                targetDirectory,
-                false,
-                versionSuffix);
-
-            await PackageGenerator.GeneratePackages(
-                recentUsbDrivers,
-                File.ReadAllText("adk-usb-driver.nuspec"),
                 targetDirectory,
                 false,
                 versionSuffix);

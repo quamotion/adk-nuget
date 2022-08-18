@@ -122,12 +122,24 @@ namespace AdkNuGetGenerator
 
             var archive = new Archive()
             {
-                Size = (int)value.Element(value.Name.Namespace + "size"),
-                ChecksumType = (string)value.Element(value.Name.Namespace + "checksum").Attribute("type"),
-                Checksum = (string)value.Element(value.Name.Namespace + "checksum"),
-                Url = new Uri((string)value.Element(value.Name.Namespace + "url"), UriKind.RelativeOrAbsolute),
                 HostOs = (string)value.Element(value.Name.Namespace + "host-os")
             };
+
+            if (value.Element("complete") != null)
+            {
+                var complete = value.Element("complete");
+                archive.Size = (int)complete.Element(value.Name.Namespace + "size");
+                archive.ChecksumType = (string)complete.Element(value.Name.Namespace + "checksum").Attribute("type");
+                archive.Checksum = (string)complete.Element(value.Name.Namespace + "checksum");
+                archive.Url = new Uri((string)complete.Element(value.Name.Namespace + "url"), UriKind.RelativeOrAbsolute);
+            }
+            else
+            {
+                archive.Size = (int)value.Element(value.Name.Namespace + "size");
+                archive.ChecksumType = (string)value.Element(value.Name.Namespace + "checksum").Attribute("type");
+                archive.Checksum = (string)value.Element(value.Name.Namespace + "checksum");
+                archive.Url = new Uri((string)value.Element(value.Name.Namespace + "url"), UriKind.RelativeOrAbsolute);
+            }
 
             // Make the URL absolute if required.
             if (!archive.Url.IsAbsoluteUri)
