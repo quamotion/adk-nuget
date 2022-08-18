@@ -45,6 +45,8 @@ namespace AdkNuGetGenerator
             var recentPlatformTools = repository.PlatformTools.Where(c => c.Revision.ToVersion() > latestPlatformToolsVersion && !c.Revision.Preview).ToArray();
             var recentUsbDrivers = repository.Extras.Where(e => e.Path == "usb_driver").Where(c => c.Revision.ToVersion() > latestUsbDriverVersion && !c.Revision.Preview).ToArray();
 
+            Console.WriteLine($"Processing {recentBuildTools.Length} build tool packages, {recentPlatformTools.Length} platform tool packages and {recentUsbDrivers.Length} USB driver packages");
+
             string versionSuffix = string.Empty; // use things like -beta004 if you want to add NuGet version suffixes
 
             await PackageGenerator.GeneratePackages(
