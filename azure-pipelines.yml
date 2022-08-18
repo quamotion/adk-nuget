@@ -5,11 +5,11 @@ jobs:
   container: mcr.microsoft.com/dotnet/sdk:6.0
   steps:
   - script: |
-      dotnet run AdkNuGetGenerator.csproj
+      dotnet run AdkNuGetGenerator.csproj -c Release
     displayName: Run AdkNuGetGenerator
     workingDirectory: AdkNuGetGenerator/AdkNuGetGenerator/
-  - task: PublishBuildArtifacts@1
-    inputs:
-      pathtoPublish: '$(Build.ArtifactStagingDirectory)/runtimes'
-      artifactName: runtimes
-    displayName: Publish artifacts
+  - script: |
+      mkdir -p nuget/
+      cp AdkNuGetGenerator/AdkNuGetGenerator/*.nupkg ./nuget/
+  - publish: $(System.DefaultWorkingDirectory)/nuget/
+    artifact: WebApp

@@ -113,6 +113,8 @@ namespace AdkNuGetGenerator
                 {
                     builder.Save(stream);
                 }
+
+                Console.WriteLine($"Generated {Path.GetFullPath(packageOutputPath)}");
             }
         }
     }
