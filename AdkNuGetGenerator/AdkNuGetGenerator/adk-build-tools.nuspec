@@ -23,9 +23,9 @@
     <file src="{Dir}\linux\android-*\aapt*" target="runtimes\linux-x64\native\" />
     <file src="{Dir}\linux\android-*\aapt2*" target="runtimes\linux-x64\native\" />
     <file src="{Dir}\linux\android-*\zipalign*" target="runtimes\linux-x64\native\" />
-    <file src="{Dir}\windows\android-*\aapt*" target="runtimes\win7-x64\native\" />
-    <file src="{Dir}\windows\android-*\aapt2*" target="runtimes\win7-x64\native\" />
-    <file src="{Dir}\windows\android-*\zipalign*" target="runtimes\win7-x64\native\" />
+    <file src="{Dir}\windows\android-*\aapt*" target="runtimes\win\native\" />
+    <file src="{Dir}\windows\android-*\aapt2*" target="runtimes\win\native\" />
+    <file src="{Dir}\windows\android-*\zipalign*" target="runtimes\win\native\" />
     <file src="{Dir}\macosx\android-*\aapt*" target="runtimes\osx-x64\native\" />
     <file src="{Dir}\macosx\android-*\aapt2*" target="runtimes\osx-x64\native\" />
     <file src="{Dir}\macosx\android-*\zipalign*" target="runtimes\osx-x64\native\" />

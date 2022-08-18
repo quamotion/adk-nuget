@@ -20,7 +20,7 @@
   </metadata>
 
   <files>
-    <file src="{Dir}\windows\platform-tools\adb*" target="runtimes\win7-x64\native\" />
+    <file src="{Dir}\windows\platform-tools\adb*" target="runtimes\win\native\" />
     <file src="{Dir}\linux\platform-tools\adb*" target="runtimes\linux-x64\native\" />
     <file src="{Dir}\macosx\platform-tools\adb*" target="runtimes\osx-64\native\" />
 </files>
