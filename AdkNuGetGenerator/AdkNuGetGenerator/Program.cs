@@ -33,7 +33,7 @@ namespace AdkNuGetGenerator
             // Download the platform-tools, build-tools and usb_driver components.
             DirectoryInfo targetDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
-            Version latestBuildToolsVersion = new Version(29, 0, 3);
+            Version latestBuildToolsVersion = new Version(33, 0, 1);
             Version latestPlatformToolsVersion = new Version(29, 0, 6);
             Version latestUsbDriverVersion = new Version(12, 0, 0);
 
