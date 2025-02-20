@@ -2,7 +2,7 @@
 // Copyright (c) Quamotion. All rights reserved.
 // </copyright>
 
-namespace AdkNuGetGenerator
+namespace AndroidSdkRepository
 {
     using System;
     using System.Collections.ObjectModel;
@@ -37,7 +37,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the component revision (version).
         /// </summary>
-        public Revision Revision
+        public Revision? Revision
         {
             get;
             set;
@@ -87,11 +87,11 @@ namespace AdkNuGetGenerator
 
             var buildTool = new Component(name.LocalName)
             {
-                Revision = Revision.FromXElement(value.Element(name.Namespace + "revision")),
+                Revision = Revision.FromXElement(value.Element(name.Namespace + "revision")!),
                 Obsolete = value.Elements("obsolete").Any(),
             };
 
-            foreach (var archive in Archive.FromArchivesXElement(value.Element(name.Namespace + "archives"), baseUri))
+            foreach (var archive in Archive.FromArchivesXElement(value.Element(name.Namespace + "archives")!, baseUri))
             {
                 buildTool.Archives.Add(archive);
             }

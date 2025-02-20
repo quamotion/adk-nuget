@@ -2,13 +2,10 @@
 // Copyright (c) Quamotion. All rights reserved.
 // </copyright>
 
-namespace AdkNuGetGenerator
-{
-    using System;
-    using System.Linq;
-    using System.Xml.Linq;
-    using NuGet.Versioning;
+using System.Xml.Linq;
 
+namespace AndroidSdkRepository
+{
     /// <summary>
     /// Represents a version number.
     /// </summary>
@@ -74,9 +71,9 @@ namespace AdkNuGetGenerator
 
             return new Revision()
             {
-                Major = (int)value.Element(value.Name.Namespace + "major"),
-                Minor = value.Element(value.Name.Namespace + "minor") != null ? (int)value.Element(value.Name.Namespace + "minor") : -1,
-                Micro = value.Element(value.Name.Namespace + "micro") != null ? (int)value.Element(value.Name.Namespace + "micro") : -1,
+                Major = (int)value.Element(value.Name.Namespace + "major")!,
+                Minor = value.Element(value.Name.Namespace + "minor") != null ? (int)value.Element(value.Name.Namespace + "minor")! : -1,
+                Micro = value.Element(value.Name.Namespace + "micro") != null ? (int)value.Element(value.Name.Namespace + "micro")! : -1,
                 Preview = value.Elements(value.Name.Namespace + "preview").Any(),
             };
         }
@@ -107,17 +104,6 @@ namespace AdkNuGetGenerator
         public Version ToVersion()
         {
             return new Version(this.Major, this.Minor > 0 ? this.Minor : 0, this.Micro > 0 ? this.Micro : 0);
-        }
-
-        /// <summary>
-        /// Converts this revision to a <see cref="SemanticVersion"/>.
-        /// </summary>
-        /// <returns>
-        /// An equivalent <see cref="SemanticVersion"/>.
-        /// </returns>
-        public SemanticVersion ToSematicVersion()
-        {
-            return new SemanticVersion(this.Major, this.Minor > 0 ? this.Minor : 0, this.Micro > 0 ? this.Micro : 0, null);
         }
     }
 }

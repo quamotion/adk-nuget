@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdkNuGetGenerator", "AdkNuGetGenerator\AdkNuGetGenerator.csproj", "{53955CCE-101B-4026-AD18-9E62DFDD0519}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidSdkRepository", "AndroidSdkRepository\AndroidSdkRepository.csproj", "{1D96D986-26FC-4139-AF8C-27E6B9541D73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AndroidSdkRepository.Tests", "AndroidSdkRepository.Tests\AndroidSdkRepository.Tests.csproj", "{BE2DCA55-B1FF-4DA1-B228-8ABAB5FDF8E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdkPlatformTools", "AdkPlatformTools\AdkPlatformTools.csproj", "{818A876F-E67A-4195-BFF0-B3507DC3F196}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{53955CCE-101B-4026-AD18-9E62DFDD0519}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{53955CCE-101B-4026-AD18-9E62DFDD0519}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{53955CCE-101B-4026-AD18-9E62DFDD0519}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{53955CCE-101B-4026-AD18-9E62DFDD0519}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D96D986-26FC-4139-AF8C-27E6B9541D73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D96D986-26FC-4139-AF8C-27E6B9541D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D96D986-26FC-4139-AF8C-27E6B9541D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D96D986-26FC-4139-AF8C-27E6B9541D73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE2DCA55-B1FF-4DA1-B228-8ABAB5FDF8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE2DCA55-B1FF-4DA1-B228-8ABAB5FDF8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE2DCA55-B1FF-4DA1-B228-8ABAB5FDF8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE2DCA55-B1FF-4DA1-B228-8ABAB5FDF8E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{818A876F-E67A-4195-BFF0-B3507DC3F196}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{818A876F-E67A-4195-BFF0-B3507DC3F196}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{818A876F-E67A-4195-BFF0-B3507DC3F196}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{818A876F-E67A-4195-BFF0-B3507DC3F196}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
