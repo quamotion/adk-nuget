@@ -68,7 +68,6 @@ namespace AndroidSdkRepository
         /// <inheritdoc/>
         public override bool Execute()
         {
-            Debugger.Launch();
             var repository = Repository2.Load("https://dl.google.com/android/repository/repository2-1.xml").Result;
 
             // Download the platform-tools, build-tools and usb_driver components.

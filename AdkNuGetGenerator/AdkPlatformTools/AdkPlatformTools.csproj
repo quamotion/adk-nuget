@@ -16,7 +16,7 @@
 		</description>
 		<PackageTags>Android ADK Android Development Kit </PackageTags>
 		<Copyright>Copyright (c) The Android Open Source Project.</Copyright>
-		<PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+		<license>http://www.apache.org/licenses/LICENSE-2.0</license>
 		<PackageReleaseNotes>http://developer.android.com/tools/sdk/tools-notes.html</PackageReleaseNotes>
 	</PropertyGroup>
 

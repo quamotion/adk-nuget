@@ -5,11 +5,9 @@ jobs:
   container: mcr.microsoft.com/dotnet/sdk:6.0
   steps:
   - script: |
-      dotnet run AdkNuGetGenerator.csproj -c Release
-    displayName: Run AdkNuGetGenerator
-    workingDirectory: AdkNuGetGenerator/AdkNuGetGenerator/
-  - script: |
-      mkdir -p nuget/
-      cp AdkNuGetGenerator/AdkNuGetGenerator/*.nupkg ./nuget/
+      mkdir -p $(System.DefaultWorkingDirectory)/nuget/
+      dotnet pack AdkPlatformTools.csproj -c Release -o $(System.DefaultWorkingDirectory)/nuget/
+    displayName: Pack AdkPlatformTools
+    workingDirectory: AdkNuGetGenerator/AdkPlatformTools/
   - publish: $(System.DefaultWorkingDirectory)/nuget/
     artifact: WebApp
