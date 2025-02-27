@@ -2,7 +2,7 @@ jobs:
 - job: native_windows
   pool:
     vmImage: ubuntu-20.04
-  container: mcr.microsoft.com/dotnet/sdk:6.0
+  container: mcr.microsoft.com/dotnet/sdk:8.0
   steps:
   - script: |
       mkdir -p $(System.DefaultWorkingDirectory)/nuget/
