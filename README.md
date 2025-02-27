@@ -15,7 +15,5 @@ Currently, the following packages are available:
 
 Package Id        | Description
 ------------------| ---------------------------
-[adk-build-tools](https://www.nuget.org/packages/adk-build-tools/) | Contains the ADK build tools, such as `aapt.exe`
 [adk-platform-tools](https://www.nuget.org/packages/adk-platform-tools) | Contains the ADK platform tools, such as `adb.exe`
-[adk-usb-driver](https://www.nuget.org/packages/adk-usb-driver) | Contains the USB driver for Android devices
 
