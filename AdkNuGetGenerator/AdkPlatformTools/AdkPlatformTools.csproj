@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PackageId>adk-platform-tools</PackageId>
+		<authors>The Android Open Source Project</authors>
+		<PackageProjectUrl>https://android.googlesource.com/</PackageProjectUrl>
+		<PackageIconUrl>https://source.android.com/source/images/Android_Robot_100.png</PackageIconUrl>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<summary>This package contains the platform-tools from the Android SDK.</summary>
+		<description>
+			Platform Tools is a component of the Android SDK required for working with Android devices. It contains tools such as adb and fastboot.
+		</description>
+		<PackageTags>Android ADK Android Development Kit </PackageTags>
+		<Copyright>Copyright (c) The Android Open Source Project.</Copyright>
+		<license>http://www.apache.org/licenses/LICENSE-2.0</license>
+		<PackageReleaseNotes>http://developer.android.com/tools/sdk/tools-notes.html</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="Android SDK Platform-Tools-35.0.2\linux\platform-tools\adb" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Android SDK Platform-Tools-35.0.2\linux\platform-tools\adb" >
+			<PackagePath>runtimes\linux\native</PackagePath>
+			<Pack>true</Pack>
+		</Content>
+		<Content Include="Android SDK Platform-Tools-35.0.2\macosx\platform-tools\adb" >
+			<PackagePath>runtimes\osx\native</PackagePath>
+			<Pack>true</Pack>
+		</Content>
+		<Content Include="Android SDK Platform-Tools-35.0.2\windows\platform-tools\adb.exe" >
+			<PackagePath>runtimes\win\native</PackagePath>
+			<Pack>true</Pack>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" >
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\AndroidSdkRepository\AndroidSdkRepository.csproj">
+			<PrivateAssets>all</PrivateAssets>
+		</ProjectReference>
+	</ItemGroup>
+
+	<UsingTask TaskName="AndroidSdkRepository.AndroidSdk" AssemblyFile="$(OutDir)\AndroidSdkRepository.dll" />
+
+	<Target Name="RunAndroidSdk" AfterTargets="AfterBuild">
+		<AndroidSdk Version="$(BuildVersionSimple)" />
+	</Target>
+</Project>

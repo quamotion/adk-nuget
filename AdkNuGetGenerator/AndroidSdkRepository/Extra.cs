@@ -2,7 +2,7 @@
 // Copyright (c) Quamotion. All rights reserved.
 // </copyright>
 
-namespace AdkNuGetGenerator
+namespace AndroidSdkRepository
 {
     using System;
     using System.Collections.ObjectModel;
@@ -17,7 +17,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the unique ID of the vendor that provides the extra.
         /// </summary>
-        public string VendorId
+        public string? VendorId
         {
             get;
             set;
@@ -26,7 +26,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets an URL that describes the extra component.
         /// </summary>
-        public string DescUrl
+        public string? DescUrl
         {
             get;
             set;
@@ -35,14 +35,14 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the SDK path to the extra component.
         /// </summary>
-        public string Path
+        public string? Path
         {
             get;
             set;
         }
 
         /// <inheritdoc/>
-        public string Name
+        public string? Name
         {
             get { return this.Path; }
         }
@@ -50,7 +50,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets a description of the extra component.
         /// </summary>
-        public string Description
+        public string? Description
         {
             get;
             set;
@@ -59,7 +59,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the display name of the extra component.
         /// </summary>
-        public string DisplayName
+        public string? DisplayName
         {
             get;
             set;
@@ -68,7 +68,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the display name of the vendor that provides the extra component.
         /// </summary>
-        public string DisplayVendor
+        public string? DisplayVendor
         {
             get;
 
@@ -78,7 +78,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the revision of the extra component.
         /// </summary>
-        public Revision Revision
+        public Revision? Revision
         {
             get;
             set;
@@ -87,7 +87,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets a value indicating whether the extra component is obsolete.
         /// </summary>
-        public bool Obsolete
+        public bool? Obsolete
         {
             get;
             set;
@@ -125,17 +125,17 @@ namespace AdkNuGetGenerator
 
             var extra = new Extra()
             {
-                VendorId = (string)value.Element(value.Name.Namespace + "vendor-id"),
-                DescUrl = (string)value.Element(value.Name.Namespace + "desc-url"),
-                Path = (string)value.Element(value.Name.Namespace + "path"),
-                Description = (string)value.Element(value.Name.Namespace + "description"),
-                DisplayName = (string)value.Element(value.Name.Namespace + "name-display"),
-                DisplayVendor = (string)value.Element(value.Name.Namespace + "vendor-display"),
-                Revision = Revision.FromXElement(value.Element(value.Name.Namespace + "revision")),
-                Obsolete = value.Elements(value.Name.Namespace + "obsolete").Any()
+                VendorId = (string)value.Element(value.Name.Namespace + "vendor-id")!,
+                DescUrl = (string)value.Element(value.Name.Namespace + "desc-url")!,
+                Path = (string)value.Element(value.Name.Namespace + "path")!,
+                Description = (string)value.Element(value.Name.Namespace + "description")!,
+                DisplayName = (string)value.Element(value.Name.Namespace + "name-display")!,
+                DisplayVendor = (string)value.Element(value.Name.Namespace + "vendor-display")!,
+                Revision = Revision.FromXElement(value.Element(value.Name.Namespace + "revision")!),
+                Obsolete = value.Elements(value.Name.Namespace + "obsolete").Any(),
             };
 
-            foreach (var archive in Archive.FromArchivesXElement(value.Element(value.Name.Namespace + "archives"), baseUri))
+            foreach (var archive in Archive.FromArchivesXElement(value.Element(value.Name.Namespace + "archives")!, baseUri))
             {
                 extra.Archives.Add(archive);
             }

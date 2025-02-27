@@ -2,12 +2,12 @@
 // Copyright (c) Quamotion. All rights reserved.
 // </copyright>
 
-namespace AdkNuGetGenerator
+namespace AndroidSdkRepository
 {
     using System.Collections.ObjectModel;
 
     /// <summary>
-    /// A common interface for all components that contain archives
+    /// A common interface for all components that contain archives.
     /// </summary>
     public interface IArchiveContainer
     {
@@ -20,7 +20,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets the revision of the component.
         /// </summary>
-        Revision Revision
+        Revision? Revision
         {
             get;
         }
@@ -28,7 +28,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets the name of the component.
         /// </summary>
-        string Name
+        string? Name
         {
             get;
         }

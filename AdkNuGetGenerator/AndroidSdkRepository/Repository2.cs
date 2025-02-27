@@ -2,7 +2,7 @@
 // Copyright (c) Quamotion. All rights reserved.
 // </copyright>
 
-namespace AdkNuGetGenerator
+namespace AndroidSdkRepository
 {
     using System;
     using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace AdkNuGetGenerator
         public List<RemotePackage> PlatformTools
         { get; } = new List<RemotePackage>();
 
-        private XNamespace Namespace
+        private XNamespace? Namespace
         {
             get;
             set;
@@ -57,7 +57,7 @@ namespace AdkNuGetGenerator
                 document = XDocument.Load(stream);
             }
 
-            var repository = Repository2.FromXElement(document.Root, new Uri(url));
+            var repository = Repository2.FromXElement(document.Root!, new Uri(url));
             return repository;
         }
 
@@ -87,7 +87,7 @@ namespace AdkNuGetGenerator
 
             var repository = new Repository2()
             {
-                Namespace = value.Name.Namespace
+                Namespace = value.Name.Namespace,
             };
 
             repository.LoadComponents(value, repository.BuildTools, "build-tools", baseUri);
@@ -102,7 +102,7 @@ namespace AdkNuGetGenerator
 
             foreach (var remotePackage in value.Elements(name))
             {
-                var paths = ((string)remotePackage.Attribute("path")).Split(";", StringSplitOptions.RemoveEmptyEntries);
+                var paths = ((string)remotePackage.Attribute("path")!).Split(";", StringSplitOptions.RemoveEmptyEntries);
 
                 if (paths.Contains(path))
                 {

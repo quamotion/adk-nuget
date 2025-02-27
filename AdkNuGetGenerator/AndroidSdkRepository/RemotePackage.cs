@@ -2,7 +2,7 @@
 // Copyright (c) Quamotion. All rights reserved.
 // </copyright>
 
-namespace AdkNuGetGenerator
+namespace AndroidSdkRepository
 {
     using System;
     using System.Collections.Generic;
@@ -12,12 +12,15 @@ namespace AdkNuGetGenerator
     using System.Threading.Tasks;
     using System.Xml.Linq;
 
+    /// <summary>
+    /// Represents a remote package in the Android SDK.
+    /// </summary>
     public class RemotePackage : IArchiveContainer
     {
         /// <summary>
         /// Gets the component name.
         /// </summary>
-        public string Name
+        public string? Name
         {
             get;
             private set;
@@ -26,7 +29,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the component revision (version).
         /// </summary>
-        public Revision Revision
+        public Revision? Revision
         {
             get;
             set;
@@ -73,12 +76,12 @@ namespace AdkNuGetGenerator
 
             var package = new RemotePackage()
             {
-                Name = value.Element("display-name").Value,
-                Revision = Revision.FromXElement(value.Element("revision")),
+                Name = value.Element("display-name")!.Value,
+                Revision = Revision.FromXElement(value.Element("revision")!),
                 Obsolete = value.Elements("obsolete").Any(),
             };
 
-            foreach (var archive in Archive.FromArchivesXElement(value.Element("archives"), baseUri))
+            foreach (var archive in Archive.FromArchivesXElement(value.Element("archives")!, baseUri))
             {
                 package.Archives.Add(archive);
             }
@@ -87,6 +90,6 @@ namespace AdkNuGetGenerator
         }
 
         /// <inheritdoc/>
-        public override string ToString() => this.Name;
+        public override string ToString() => this.Name!;
     }
 }

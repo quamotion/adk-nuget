@@ -2,7 +2,7 @@
 // Copyright (c) Quamotion. All rights reserved.
 // </copyright>
 
-namespace AdkNuGetGenerator
+namespace AndroidSdkRepository
 {
     using System;
     using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace AdkNuGetGenerator
         /// Gets or sets the name of the algorithm that was used to calculate the <see cref="Checksum"/>.
         /// Should always be <c>sha1</c>.
         /// </summary>
-        public string ChecksumType
+        public string? ChecksumType
         {
             get;
             set;
@@ -41,7 +41,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the checksum of the package as a hex-encoded string.
         /// </summary>
-        public string Checksum
+        public string? Checksum
         {
             get;
             set;
@@ -50,7 +50,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the URL from which the package can be downloaded.
         /// </summary>
-        public Uri Url
+        public Uri? Url
         {
             get;
             set;
@@ -59,7 +59,7 @@ namespace AdkNuGetGenerator
         /// <summary>
         /// Gets or sets the name of the operating system which the package targets.
         /// </summary>
-        public string HostOs
+        public string? HostOs
         {
             get;
             set;
@@ -122,23 +122,23 @@ namespace AdkNuGetGenerator
 
             var archive = new Archive()
             {
-                HostOs = (string)value.Element(value.Name.Namespace + "host-os")
+                HostOs = (string)value.Element(value.Name.Namespace + "host-os")!,
             };
 
             if (value.Element("complete") != null)
             {
-                var complete = value.Element("complete");
-                archive.Size = (int)complete.Element(value.Name.Namespace + "size");
-                archive.ChecksumType = (string)complete.Element(value.Name.Namespace + "checksum").Attribute("type");
-                archive.Checksum = (string)complete.Element(value.Name.Namespace + "checksum");
-                archive.Url = new Uri((string)complete.Element(value.Name.Namespace + "url"), UriKind.RelativeOrAbsolute);
+                var complete = value.Element("complete")!;
+                archive.Size = (int)complete.Element(value.Name.Namespace + "size")!;
+                archive.ChecksumType = (string)complete.Element(value.Name.Namespace + "checksum")!.Attribute("type")!;
+                archive.Checksum = (string)complete.Element(value.Name.Namespace + "checksum")!;
+                archive.Url = new Uri((string)complete.Element(value.Name.Namespace + "url")!, UriKind.RelativeOrAbsolute);
             }
             else
             {
-                archive.Size = (int)value.Element(value.Name.Namespace + "size");
-                archive.ChecksumType = (string)value.Element(value.Name.Namespace + "checksum").Attribute("type");
-                archive.Checksum = (string)value.Element(value.Name.Namespace + "checksum");
-                archive.Url = new Uri((string)value.Element(value.Name.Namespace + "url"), UriKind.RelativeOrAbsolute);
+                archive.Size = (int)value.Element(value.Name.Namespace + "size")!;
+                archive.ChecksumType = (string)value.Element(value.Name.Namespace + "checksum")!.Attribute("type")!;
+                archive.Checksum = (string)value.Element(value.Name.Namespace + "checksum")!;
+                archive.Url = new Uri((string)value.Element(value.Name.Namespace + "url")!, UriKind.RelativeOrAbsolute);
             }
 
             // Make the URL absolute if required.
@@ -168,10 +168,10 @@ namespace AdkNuGetGenerator
                 throw new ArgumentNullException(nameof(repositoryDirectory));
             }
 
-            var targetDirectory = repositoryDirectory.CreateSubdirectory(this.HostOs);
+            var targetDirectory = repositoryDirectory.CreateSubdirectory(this.HostOs!);
 
             // Temporary file to which to download the file.
-            string tempFile = null;
+            string? tempFile = null;
 
             try
             {
@@ -179,7 +179,7 @@ namespace AdkNuGetGenerator
                 HttpClient client = new HttpClient();
                 using (Stream source = await client.GetStreamAsync(this.Url))
                 using (Stream target = File.Open(tempFile, FileMode.Open, FileAccess.ReadWrite))
-                using (SHA1Managed sha1 = new SHA1Managed())
+                using (var sha1 = SHA1.Create())
                 {
                     await source.CopyToAsync(target);
 
@@ -189,7 +189,7 @@ namespace AdkNuGetGenerator
                     if (string.Equals(this.ChecksumType, "sha1", StringComparison.OrdinalIgnoreCase))
                     {
                         var actualHash = sha1.ComputeHash(target);
-                        var expectedhash = StringToByteArray(this.Checksum);
+                        var expectedhash = StringToByteArray(this.Checksum!);
 
                         if (actualHash.Length != expectedhash.Length)
                         {
